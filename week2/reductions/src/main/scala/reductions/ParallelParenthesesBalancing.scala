@@ -55,15 +55,41 @@ object ParallelParenthesesBalancing {
    */
   def parBalance(chars: Array[Char], threshold: Int): Boolean = {
 
-    def traverse(idx: Int, until: Int, arg1: Int, arg2: Int) /*: ???*/ = {
-      ???
+    def traverse(idx: Int, until: Int): (Int, Int) = {
+      var i = idx
+      var leftCount = 0
+      var missingLeft = 0
+
+      while (i < until) {
+        if (chars(i) == ')') {
+          if (leftCount > 0) leftCount = leftCount - 1
+          else missingLeft = missingLeft + 1
+        } else if (chars(i) == '(') {
+          leftCount = leftCount + 1
+        }
+
+        i = i + 1
+      }
+
+      (missingLeft, leftCount)
     }
 
-    def reduce(from: Int, until: Int) /*: ???*/ = {
-      ???
+    def reduce(from: Int, until: Int): (Int, Int) = {
+      if (until - from <= threshold)
+        traverse(from, until)
+      else {
+        val mid = (until - from) / 2 + from
+        val ((missingLeft1, missingRight1), (missingLeft2, missingRight2)) = parallel(
+          reduce(from, mid),
+          reduce(mid, until)
+        )
+        val diff = missingLeft2 - missingRight1
+        if (diff > 0) (missingLeft1 + diff, missingRight2)
+        else (missingLeft1, missingRight2 + Math.abs(diff))
+      }
     }
 
-    reduce(0, chars.length) == ???
+    reduce(0, chars.length) == (0, 0)
   }
 
   // For those who want more:
