@@ -84,7 +84,7 @@ object LineOfSight {
     if ((end - from) <= threshold)
       Leaf(from, end, upsweepSequential(input, from, end))
     else {
-      val mid = from + (end - from / 2)
+      val mid = from + (end - from) / 2
       val (left, right) = parallel(
         upsweep(input, from, mid, threshold),
         upsweep(input, mid, end, threshold)
