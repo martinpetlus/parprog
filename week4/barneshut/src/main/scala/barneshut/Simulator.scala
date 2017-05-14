@@ -12,7 +12,11 @@ import common._
 class Simulator(val taskSupport: TaskSupport, val timeStats: TimeStatistics) {
 
   def updateBoundaries(boundaries: Boundaries, body: Body): Boundaries = {
-    ???
+    boundaries.minX = boundaries.minX min body.x
+    boundaries.maxX = boundaries.maxX max body.x
+    boundaries.minY = boundaries.minY min body.y
+    boundaries.maxY = boundaries.maxY max body.y
+    boundaries
   }
 
   def mergeBoundaries(a: Boundaries, b: Boundaries): Boundaries = {
