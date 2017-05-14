@@ -7,6 +7,7 @@ import javax.swing.event._
 import scala.collection.parallel.TaskSupport
 import scala.collection.parallel.Combiner
 import scala.collection.parallel.mutable.ParHashSet
+import scala.collection.parallel.mutable.ParSeq
 import common._
 
 class Simulator(val taskSupport: TaskSupport, val timeStats: TimeStatistics) {
@@ -47,7 +48,7 @@ class Simulator(val taskSupport: TaskSupport, val timeStats: TimeStatistics) {
   def updateBodies(bodies: Seq[Body], quad: Quad): Seq[Body] = timeStats.timed("update") {
     val parBodies = bodies.par
     parBodies.tasksupport = taskSupport
-    bodies.aggregate(Seq[Body]())(_ :+ _.updated(quad), _ ++ _)
+    parBodies.map(_.updated(quad)).seq
   }
 
   def eliminateOutliers(bodies: Seq[Body], sectorMatrix: SectorMatrix, quad: Quad): Seq[Body] = timeStats.timed("eliminate") {
