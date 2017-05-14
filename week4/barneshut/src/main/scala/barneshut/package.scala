@@ -96,11 +96,12 @@ package object barneshut {
     def insert(b: Body): Quad = {
       if (size > minimumSize) {
         val quarterSize = size / 4
-        var fork = Fork(
-          Empty(centerX - quarterSize, centerY - quarterSize, quarterSize),
-          Empty(centerX + quarterSize, centerY - quarterSize, quarterSize),
-          Empty(centerX - quarterSize, centerY + quarterSize, quarterSize),
-          Empty(centerX + quarterSize, centerY + quarterSize, quarterSize)
+        val halfSize = size / 2
+        val fork = Fork(
+          Empty(centerX - quarterSize, centerY - quarterSize, halfSize),
+          Empty(centerX + quarterSize, centerY - quarterSize, halfSize),
+          Empty(centerX - quarterSize, centerY + quarterSize, halfSize),
+          Empty(centerX + quarterSize, centerY + quarterSize, halfSize)
         )
         bodies.foldLeft(fork.insert(b))((f: Fork, b: Body) => f.insert(b))
       } else 
