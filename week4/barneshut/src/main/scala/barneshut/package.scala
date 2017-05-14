@@ -186,7 +186,14 @@ package object barneshut {
     def apply(x: Int, y: Int) = matrix(y * sectorPrecision + x)
 
     def combine(that: SectorMatrix): SectorMatrix = {
-      ???
+      matrix
+        .zipWithIndex
+        .foldLeft(new SectorMatrix(boundaries, sectorPrecision)) {
+          case (res: SectorMatrix, (m: ConcBuffer[Body], i: Int)) => {
+            res.matrix(i) = m.combine(that.matrix(i))
+            res
+          }
+        }
     }
 
     def toQuad(parallelism: Int): Quad = {
