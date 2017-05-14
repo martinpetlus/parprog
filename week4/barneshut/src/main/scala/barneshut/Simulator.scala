@@ -93,13 +93,13 @@ class Simulator(val taskSupport: TaskSupport, val timeStats: TimeStatistics) {
   def step(bodies: Seq[Body]): (Seq[Body], Quad) = {
     // 1. compute boundaries
     val boundaries = computeBoundaries(bodies)
-    
+
     // 2. compute sector matrix
     val sectorMatrix = computeSectorMatrix(bodies, boundaries)
 
     // 3. compute quad tree
     val quad = computeQuad(sectorMatrix)
-    
+
     // 4. eliminate outliers
     val filteredBodies = eliminateOutliers(bodies, sectorMatrix, quad)
 
