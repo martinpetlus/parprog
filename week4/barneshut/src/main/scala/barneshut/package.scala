@@ -189,8 +189,18 @@ package object barneshut {
     for (i <- 0 until matrix.length) matrix(i) = new ConcBuffer
 
     def +=(b: Body): SectorMatrix = {
-      var sectorX: Int = (b.x / sectorSize).toInt min (sectorPrecision - 1)
-      val sectorY: Int = (b.y / sectorSize).toInt min (sectorPrecision - 1)
+      def countUpTo(upTo: Float): Int = {
+        var i: Int = 0
+        var sum: Float = 0.0f
+        while (sum + sectorSize < upTo) {
+          sum = sum + sectorSize
+          i = i + 1
+        }
+        i
+      }
+
+      val sectorX: Int = countUpTo(b.x) min (sectorPrecision - 1)
+      val sectorY: Int = countUpTo(b.y) min (sectorPrecision - 1)
       matrix(sectorY * sectorPrecision + sectorX) += b
       this
     }
