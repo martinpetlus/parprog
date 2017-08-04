@@ -1,1 +1,1 @@
-# Functional Programming Principles in Scala - Coursera.org
+# Parallel programming in Scala - Coursera.org
